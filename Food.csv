@@ -1,0 +1,56 @@
+Nom,Element,Admiration,Classe,Esquive,Passion,Volupte
+
+# Aspiring   Valiant Shrewd  Eager   Relaxed
+# Admiration Classe  Esquive Passion Volupte
+
+Appât universel,Lumiere,-2,2,-2,-5,0
+Nitropoisson,Tenebre,2,5,-2,10,2
+Eau de source,Eau,-5,2,5,2,5
+Carotte,Electricite,0,5,10,-2,0
+Cuvée Romani,Tenebre,-2,10,5,2,2
+Gelée Chuchu,Electricite,2,5,-5,2,5
+Noix-mojo,Electricite,-5,5,-2,2,0
+Soupe de Mémé (Elixir Soup),Feu,-2,2,-2,-5,0
+Graine braise,Feu,0,10,5,5,2
+Graine vent,Eau,-2,10,2,2,5
+Larmes de fées,Lumiere,10,2,-2,5,5
+Goujon,Eau,10,2,-2,5,2
+Eau de source chaude,Feu,0,2,5,5,10
+Loche d'Hyrule,Eau,5,2,0,10,5
+Fruit Miam-miam,Electricite,-2,5,0,-5,0
+Fruit de l'Arbre de vie,Lumiere,-5,0,-2,5,0
+Baie de Lumière,Lumiere,-2,0,0,5,-5
+Lait Lon Lon,Lumiere,0,2,-5,5,-2
+Viande,Feu,0,10,5,5,2
+Spores de champignon,Electricite,-2,-2,0,2,-5
+Graine Mystère,Lumiere,-5,5,2,2,5
+Champignon suspect,Tenebre,-2,10,-2,2,0
+Silure de Toal,Eau,5,5,0,2,10
+Fromage toalien,Tenebre,2,10,-2,2,5
+Graine Pégase,Electricite,-2,2,10,5,2
+Potiron,Lumiere,-2,0,-2,10,0
+(Pumpkin Soup),Feu,-2,0,-5,5,0
+Eau sacrée,Eau,-2,0,-2,2,-5
+Graine Parfum,Lumiere,-2,5,10,2,2
+Poisscrâne,Tenebre,5,10,-2,2,2
+Baie d'endurance,Feu,0,0,-5,5,-2
+Fruit d'eau,Eau,-2,-2,-5,2,0
+Oeuf Curieux,Lumiere,0,5,-2,2,-5
+
+# Info contradictoires entre site FR et site EN
+#Champignon suspect,Tenebre,-2,10,2,0,0 FR
+#Champignon suspect,Tenebre,-2,10,-2,2,0 EN
+#Graine Mystère,Lumiere,-5,2,0,2,5 FR
+#Graine Mystère,Lumiere,-5,5,2,2,5 EN
+#Graine Parfum,Tenebre,-2,5,10,2,2 FR
+#Graine Parfum,Lumiere,-2,5,10,2,2 EN
+
+# Pas de données dans le site EN pour comparaison
+#Gigot de caillasse,Feu,0,5,10,5,2
+#Haricot magique,Eau,-5,0,2,5,0
+#Perche (Bar) d'Hyrule,Eau,2,5,-2,2,10
+#Brochet d'Hylia,Eau,2,2,-5,5,5
+#Larve d'abeille,Electricite,2,5,-2,10,2
+
+# N'existe plus ?
+#Truite fétide,Eau,2,10,-2,2,5
