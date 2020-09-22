@@ -19,18 +19,26 @@ namespace HWFood
                 // Remove all the food that do not have a stat to 10.
                 foodBase.PruneWeakFood();
                 // Bost the food depending on the element
-                foodBase.AddElementBonus("Tenebre");
+                foodBase.AddElementBonus(ConfigurationManager.AppSettings.Get("FairyElement"));
                 //foodBase.PrintFoodMean();
 
-                FoodSample sample = new FoodSample(foodBase);
-                sample.GenSD(int.Parse(ConfigurationManager.AppSettings.Get("BaseStatAdmirationPlusEssenceScore")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("BaseStatClassePlusEssenceScore")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("BaseStatEsquivenPlusEssenceScore")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("BaseStatPassionPlusEssenceScore")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("BaseStatVoluptePlusEssenceScore")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("NumberOfEssenceGiven")),
-                    int.Parse(ConfigurationManager.AppSettings.Get("GenSDLookAhead")));
-                sample.PrintSample();
+                // -------------------------------------------------------------------------------------------------------
+                // SAMPLE GENERATION WITH A GENETIC ALGORITHM
+                // -------------------------------------------------------------------------------------------------------
+                
+                GeneticAlgorithm.GeneticAlgorithmMain(foodBase);
+
+                // -------------------------------------------------------------------------------------------------------
+                // SAMPLE GENERATION WITH LOOKAHEAD
+                // -------------------------------------------------------------------------------------------------------
+
+                //FoodSample sample = new FoodSample(foodBase);
+                //sample.GenSD(int.Parse(ConfigurationManager.AppSettings.Get("GenSDLookAhead")));
+                //sample.PrintSample();
+
+                // -------------------------------------------------------------------------------------------------------
+                // OTHER GENERATION FUNCTIONS
+                // -------------------------------------------------------------------------------------------------------
 
                 //Statistics.BestSD(foodBase, 1000000);
                 //Statistics.BestSD(foodBase, 1000000, 10);
@@ -46,5 +54,6 @@ namespace HWFood
             }
             Console.ReadKey();
         }
+
     }
 }

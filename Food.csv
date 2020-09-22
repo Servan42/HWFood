@@ -31,26 +31,24 @@ Graine Pégase,Electricite,-2,2,10,5,2
 Potiron,Lumiere,-2,0,-2,10,0
 (Pumpkin Soup),Feu,-2,0,-5,5,0
 Eau sacrée,Eau,-2,0,-2,2,-5
-Graine Parfum,Lumiere,-2,5,10,2,2
+Graine Parfum,Tenebre,-2,5,10,2,2
 Poisscrâne,Tenebre,5,10,-2,2,2
 Baie d'endurance,Feu,0,0,-5,5,-2
 Fruit d'eau,Eau,-2,-2,-5,2,0
 Oeuf Curieux,Lumiere,0,5,-2,2,-5
 
+# Verifier la stat Esquive
+Truite fétide,Eau,2,10,-2,2,5
+Gigot de caillasse,Feu,0,5,10,5,2
+Haricot magique,Eau,-5,2,2,5,-2
+Perche (Bar) d'Hyrule,Eau,2,5,-2,2,10
+Brochet d'Hylia,Eau,2,2,-5,5,-2
+
 # Info contradictoires entre site FR et site EN
 #Champignon suspect,Tenebre,-2,10,2,0,0 FR
-#Champignon suspect,Tenebre,-2,10,-2,2,0 EN
+#Champignon suspect,Tenebre,-2,10,-2,2,0 EN (Most likely)
 #Graine Mystère,Lumiere,-5,2,0,2,5 FR
-#Graine Mystère,Lumiere,-5,5,2,2,5 EN
-#Graine Parfum,Tenebre,-2,5,10,2,2 FR
-#Graine Parfum,Lumiere,-2,5,10,2,2 EN
+#Graine Mystère,Lumiere,-5,5,2,2,5 EN (Most likely)
 
 # Pas de données dans le site EN pour comparaison
-#Gigot de caillasse,Feu,0,5,10,5,2
-#Haricot magique,Eau,-5,0,2,5,0
-#Perche (Bar) d'Hyrule,Eau,2,5,-2,2,10
-#Brochet d'Hylia,Eau,2,2,-5,5,5
 #Larve d'abeille,Electricite,2,5,-2,10,2
-
-# N'existe plus ?
-#Truite fétide,Eau,2,10,-2,2,5

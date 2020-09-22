@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Model\Food.cs" />
     <Compile Include="Model\FoodBase.cs" />
     <Compile Include="Model\FoodSample.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace HWFood
         private readonly FoodBase _foodBase;
         private Food _bestFood;
 
-        public List<Food> FoodList;
+        public List<Food> FoodList { get; private set; }
         /// <summary>
         /// Aspiring
         /// </summary>
@@ -36,6 +37,11 @@ namespace HWFood
         /// </summary>
         public int Volupte { get; private set; }
         /// <summary>
+        /// Number of essences already given to the fairy.
+        /// </summary>
+        public int EssenceAlreadyGiven { get; private set; }
+
+        /// <summary>
         /// Creates the sample.
         /// </summary>
         /// <param name="aFoodBase">Data about the food.</param>
@@ -48,6 +54,7 @@ namespace HWFood
             Esquive = 0;
             Passion = 0;
             Volupte = 0;
+            AddBaseStat();
         }
 
         /// <summary>
@@ -63,8 +70,32 @@ namespace HWFood
             Esquive = aFoodSample.Esquive;
             Passion = aFoodSample.Passion;
             Volupte = aFoodSample.Volupte;
+            EssenceAlreadyGiven = aFoodSample.EssenceAlreadyGiven;
         }
 
+        /// <summary>
+        /// Creates a sample from a list of food.
+        /// </summary>
+        /// <param name="aFoodBase"></param>
+        /// <param name="aFoodList"></param>
+        public FoodSample(FoodBase aFoodBase, List<Food> aFoodList)
+        {
+            _foodBase = aFoodBase;
+            FoodList = new List<Food>(aFoodList);
+            AddBaseStat();
+            ComputeStats();
+        }
+
+        private void AddBaseStat()
+        {
+            Admiration += int.Parse(ConfigurationManager.AppSettings.Get("BaseStatAdmirationPlusEssenceScore"));
+            Classe += int.Parse(ConfigurationManager.AppSettings.Get("BaseStatClassePlusEssenceScore"));
+            Esquive += int.Parse(ConfigurationManager.AppSettings.Get("BaseStatEsquivenPlusEssenceScore"));
+            Passion += int.Parse(ConfigurationManager.AppSettings.Get("BaseStatPassionPlusEssenceScore"));
+            Volupte += int.Parse(ConfigurationManager.AppSettings.Get("BaseStatVoluptePlusEssenceScore"));
+            EssenceAlreadyGiven = int.Parse(ConfigurationManager.AppSettings.Get("NumberOfEssenceGiven"));
+        }
+        
         /// <summary>
         /// Generates a sample of 33 food at random.
         /// Perf: ~ 500.000 samples/sec
@@ -72,7 +103,8 @@ namespace HWFood
         public void GenRandom()
         {
             this.Reset();
-            for (int i = 0; i < 33; i++)
+
+            for (int i = 0; i < 33 - EssenceAlreadyGiven; i++)
             {
                 FoodList.Add(_foodBase[StaticRandom.Rand(0, _foodBase.Count)]);
             }
@@ -88,7 +120,7 @@ namespace HWFood
             this.Reset();
             double mean = -1;
             int rand = 0;
-            for (int i = 0; i < 33; i++)
+            for (int i = 0; i < 33 - EssenceAlreadyGiven; i++)
             {
                 while (mean < minMean)
                 {
@@ -106,7 +138,7 @@ namespace HWFood
         public void GenEssence()
         {
             this.Reset();
-            for (int i = 0; i < 33; i++)
+            for (int i = 0; i < 33 - EssenceAlreadyGiven; i++)
             {
                 FoodList.Add(new Food("Elixir", "Feu", 10, 10, 10, 10, 10));
             }
@@ -128,7 +160,7 @@ namespace HWFood
             int i = 0;
 
             this.Reset();
-            while (i < 33)
+            while (i < 33 - EssenceAlreadyGiven)
             {
                 rand = StaticRandom.Rand(0, _foodBase.Count);
                 if (!admirationAdded & _foodBase[rand].Admiration >= 10)
@@ -192,19 +224,14 @@ namespace HWFood
         /// <param name="aEsquiveBase"></param>
         /// <param name="aPassionBase"></param>
         /// <param name="aVolupteBase"></param>
-        public void GenSD(int aAdmirationBase = 0, int aClasseBase = 0, int aEsquiveBase = 0, int aPassionBase = 0, int aVolupteBase = 0, int nbEssenceAlreadyGiven = 0, int aLookAhead = 0)
+        public void GenSD(int aLookAhead = 0)
         {
             Food foodToAdd = null;
             double bestSD;
             int lookAhead = aLookAhead;
-            int nbFoodToGenerate = 33 - nbEssenceAlreadyGiven;
+            int nbFoodToGenerate = 33 - EssenceAlreadyGiven;
 
             this.Reset();
-            Admiration = aAdmirationBase;
-            Classe = aClasseBase;
-            Esquive = aEsquiveBase;
-            Passion = aPassionBase;
-            Volupte = aVolupteBase;
 
             DateTime startTime = DateTime.Now;
 
@@ -288,8 +315,61 @@ namespace HWFood
                 Volupte -= f.Volupte;
             }
 
-            if(aLookahead == 0) _bestFood = bestFood;
+            if (aLookahead == 0) _bestFood = bestFood;
             return returnSD;
+        }
+
+        /// <summary>
+        /// For the genetic algorithm, performs an uniform crossover between this and the parameter. Returns the child.
+        /// </summary>
+        /// <param name="parent2"></param>
+        /// <returns></returns>
+        public FoodSample UniformCrossover(FoodSample parent2)
+        {
+            List<Food> foodlist = new List<Food>();
+
+            for (int i = 0; i < FoodList.Count; i++)
+            {
+                if (StaticRandom.Rand(0, 2) == 0)
+                {
+                    foodlist.Add(this.FoodList[i]);
+                }
+                else
+                {
+                    foodlist.Add(parent2.FoodList[i]);
+                }
+            }
+
+            return new FoodSample(_foodBase, foodlist);
+        }
+
+        /// <summary>
+        /// For the genetic algorithm, mutates the sample and compute the stats if needed.
+        /// </summary>
+        public void Mutate()
+        {
+            bool mutated = false;
+            float mutationChance = float.Parse(ConfigurationManager.AppSettings.Get("GA_MutationChancePerLocus"));
+            
+            for (int i = 0; i < FoodList.Count; i++)
+            {
+                if ((float)(StaticRandom.Rand()) / int.MaxValue <= mutationChance)
+                {
+                    mutated = true;
+                    FoodList[i] = _foodBase[StaticRandom.Rand(0, _foodBase.Count)];
+                }
+            }
+
+            if (mutated)
+            {
+                Admiration = 0;
+                Classe = 0;
+                Esquive = 0;
+                Passion = 0;
+                Volupte = 0;
+                AddBaseStat();
+                ComputeStats();
+            }
         }
 
         /// <summary>
@@ -366,6 +446,7 @@ namespace HWFood
             Esquive = 0;
             Passion = 0;
             Volupte = 0;
+            AddBaseStat();
         }
     }
 }
